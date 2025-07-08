@@ -1,0 +1,38 @@
+export const restaurants = [
+  {
+    id: 1,
+    name: "The Cozy Corner",
+    address: "123 Main St",
+    distance: "0.5 mi",
+    price: "$$",
+    rating: 4.5,
+    image: require('../assets/images/restaurant1.webp'),
+  },
+  {
+    id: 2,
+    name: "Spice Delight",
+    address: "456 Oak Ave",
+    distance: "1.2 mi",
+    price: "$",
+    rating: 4.2,
+    image: require('../assets/images/restaurant2.jpg'),
+  },
+  {
+    id: 3,
+    name: "Ocean's Catch",
+    address: "789 Pine Ln",
+    distance: "0.8 mi",
+    price: "$$$",
+    rating: 4.8,
+    image: require('../assets/images/restaurant1.webp'),
+  },
+  {
+    id: 4,
+    name: "Green Leaf Cafe",
+    address: "101 Elm Rd",
+    distance: "1.5 mi",
+    price: "$",
+    rating: 4.0,
+    image: require('../assets/images/restaurant2.jpg'),
+  },
+]; 

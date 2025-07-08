@@ -1,75 +1,64 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { restaurants } from "@/constants/mockData";
+import { Ionicons } from "@expo/vector-icons";
+import { Image, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+export default function Explore() {
+	return (
+		<SafeAreaView className="flex-1 bg-white">
+			<ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+				<View className="pt-5 mx-4">
+					{/* Header */}
+					<View className="flex-row justify-between items-center px-4 mb-8">
+						<Text className="text-2xl font-quicksand-bold">FoodYou</Text>
+						<Ionicons name="menu" size={32} color="#6B4F4F" />
+					</View>
 
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+					{/* Search Bar */}
+					<View className="px-4 mb-7">
+						<View className="flex-row items-center bg-gray-50 rounded-full px-6 py-4">
+							<Ionicons name="search" size={28} color="#B0A8A8" />
+							<TextInput
+								className="flex-1 ml-4 text-lg font-quicksand-regular"
+								placeholder="Restaurants or cuisine"
+								placeholderTextColor="#B0A8A8"
+							/>
+						</View>
+					</View>
+
+					{/* Filter Buttons */}
+					<View className="flex-row justify-center px-4 mb-8">
+						<TouchableOpacity className="bg-gray-100/30 rounded-full px-4 py-2 border border-gray-300 mr-4">
+							<Text className="font-quicksand-medium text-base text-gray-600">Nearby</Text>
+						</TouchableOpacity>
+						<TouchableOpacity className="bg-gray-100/30 rounded-full px-4 py-2 border border-gray-300 mr-4">
+							<Text className="font-quicksand-medium text-base text-gray-600">Budget-friendly</Text>
+						</TouchableOpacity>
+						<TouchableOpacity className="bg-gray-100/30 rounded-full px-4 py-2 border border-gray-300">
+							<Text className="font-quicksand-medium text-base text-gray-600">Top-rated</Text>
+						</TouchableOpacity>
+					</View>
+
+					{/* Restaurant List */}
+					{restaurants.map(item => (
+						<View key={item.id} className="flex-row items-center px-4 py-5">
+							<Image
+								source={item.image}
+								className="w-16 h-16 rounded-xl mr-6"
+								resizeMode="cover"
+							/>
+							<View className="flex-1">
+								<Text className="font-quicksand-semibold text-lg mb-1">{item.name}</Text>
+								<Text className="font-quicksand-regular text-sm text-gray-500">
+									{item.address} · {item.distance}
+								</Text>
+							</View>
+							<Text className="font-quicksand-medium text-lg mr-3">{item.price}</Text>
+							<Text className="font-quicksand-medium text-lg">{item.rating}</Text>
+						</View>
+					))}
+				</View>
+			</ScrollView>
+		</SafeAreaView>
+	);
 }
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
