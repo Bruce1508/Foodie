@@ -1,22 +1,24 @@
 {
   "expo": {
-    "name": "studybuddy-app",
-    "slug": "studybuddy-app",
+    "name": "foodieapp",
+    "slug": "foodieapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "studybuddyapp",
+    "scheme": "foodieapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.foodie.foodieapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.foodie.foodieapp"
     },
     "web": {
       "bundler": "metro",
@@ -37,6 +39,13 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "googleAuthConfig": {
+        "androidClientId": "1075082404053-jmj3m9v7dhbdmei28l9u5pdl5ii4bt1o.apps.googleusercontent.com",
+        "iosClientId": "1075082404053-mhsjr933sulooh7bcbfdp94fco8l5chi.apps.googleusercontent.com",
+        "webClientId": "1075082404053-00n9e8ch4i3d8f0mc10pp69v1n0cjub8.apps.googleusercontent.com"
+      }
     }
   }
 }

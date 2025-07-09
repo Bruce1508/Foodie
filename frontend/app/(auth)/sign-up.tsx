@@ -1,10 +1,21 @@
 import { Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import { Link, useRouter } from 'expo-router';
-import { ImageBackground, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { ImageBackground, StatusBar, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function SignUp() {
     const router = useRouter();
+    const { signInWithGoogle, loading } = useAuth();
+
+    const handleGoogleSignUp = async () => {
+        try {
+            await signInWithGoogle();
+            // Navigation sẽ được handle tự động bởi tab layout authentication check
+        } catch (error) {
+            console.error('Sign up error:', error);
+        }
+    };
 
     return (
         <View className="flex-1">
@@ -46,36 +57,39 @@ export default function SignUp() {
             <View className="bg-white px-8 pt-8 pb-12">
                 {/* Buttons Section */}
                 <View className="mb-10">
-                    {/* Continue with Google */}
+                    {/* Continue with Google - REAL AUTHENTICATION */}
                     <TouchableOpacity 
                         className="bg-white rounded-full py-4 px-4 flex-row items-center justify-center mb-4 border border-gray-200"
-                        onPress={() => router.push('/(tabs)')}
+                        onPress={handleGoogleSignUp}
+                        disabled={loading}
                     >
-                        <Ionicons name="logo-google" size={20} color="#DB4437" />
+                        {loading ? (
+                            <ActivityIndicator size="small" color="#DB4437" />
+                        ) : (
+                            <Ionicons name="logo-google" size={20} color="#DB4437" />
+                        )}
                         <Text className="text-gray-800 text-lg font-quicksand-medium ml-3">
-                            Continue with Google
+                            {loading ? 'Signing up...' : 'Continue with Google'}
                         </Text>
                     </TouchableOpacity>
 
-                    {/* Continue with Apple */}
+                    {/* Continue with Apple - TODO: Implement Apple Sign-In */}
                     <TouchableOpacity 
-                        className="bg-white rounded-full py-4 px-4 flex-row items-center justify-center mb-4 border border-gray-200"
-                        onPress={() => router.push('/(tabs)')}
+                        className="bg-white rounded-full py-4 px-4 flex-row items-center justify-center mb-4 border border-gray-200 opacity-50"
                     >
                         <Ionicons name="logo-apple" size={20} color="#000" />
                         <Text className="text-gray-800 text-lg font-quicksand-medium ml-3">
-                            Continue with Apple
+                            Continue with Apple (Coming Soon)
                         </Text>
                     </TouchableOpacity>
 
-                    {/* Continue with Email */}
+                    {/* Continue with Email - TODO: Implement Email Auth */}
                     <TouchableOpacity 
-                        className="bg-white rounded-full py-4 px-4 flex-row items-center justify-center mb-4 border border-gray-200"
-                        onPress={() => router.push('/(tabs)')}
+                        className="bg-white rounded-full py-4 px-4 flex-row items-center justify-center mb-4 border border-gray-200 opacity-50"
                     >
                         <Ionicons name="mail" size={20} color="#6B7280" />
                         <Text className="text-gray-800 text-lg font-quicksand-medium ml-3">
-                            Continue with Email
+                            Continue with Email (Coming Soon)
                         </Text>
                     </TouchableOpacity>
                 </View>

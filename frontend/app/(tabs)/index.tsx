@@ -1,17 +1,48 @@
 import { restaurants } from "@/constants/mockData";
 import { Ionicons } from "@expo/vector-icons";
 import { Image, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Explore() {
+	const { user, signOut } = useAuth();
+
+	const handleSignOut = async () => {
+		try {
+			await signOut();
+		} catch (error) {
+			console.error('Sign out error:', error);
+		}
+	};
+
 	return (
 		<SafeAreaView className="flex-1 bg-white">
 			<ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
 				<View className="pt-5 mx-4">
 					{/* Header */}
-					<View className="flex-row justify-between items-center px-4 mb-8">
+					<View className="flex-row justify-between items-center px-4 mb-4">
 						<Text className="text-2xl font-quicksand-bold">FoodYou</Text>
-						<Ionicons name="menu" size={32} color="#6B4F4F" />
+						<TouchableOpacity onPress={handleSignOut}>
+							<Ionicons name="log-out-outline" size={32} color="#6B4F4F" />
+						</TouchableOpacity>
 					</View>
+
+					{/* User Welcome */}
+					{user && (
+						<View className="px-4 mb-6 bg-gray-50 rounded-lg py-4 mx-4">
+							<View className="flex-row items-center">
+								{user.picture && (
+									<Image 
+										source={{ uri: user.picture }} 
+										className="w-12 h-12 rounded-full mr-3"
+									/>
+								)}
+								<View>
+									<Text className="text-lg font-quicksand-semibold">Welcome back, {user.name}!</Text>
+									<Text className="text-sm font-quicksand-regular text-gray-600">{user.email}</Text>
+								</View>
+							</View>
+						</View>
+					)}
 
 					{/* Search Bar */}
 					<View className="px-4 mb-7">

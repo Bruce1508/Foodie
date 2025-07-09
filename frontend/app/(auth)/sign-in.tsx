@@ -1,10 +1,21 @@
 import { Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import { Link, useRouter } from 'expo-router';
-import { ImageBackground, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { ImageBackground, StatusBar, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function SignIn() {
     const router = useRouter();
+    const { signInWithGoogle, loading } = useAuth();
+
+    const handleGoogleSignIn = async () => {
+        try {
+            await signInWithGoogle();
+            // Navigation sẽ được handle tự động bởi tab layout authentication check
+        } catch (error) {
+            console.error('Sign in error:', error);
+        }
+    };
 
     return (
         <View className="flex-1">
@@ -54,37 +65,45 @@ export default function SignIn() {
             <View className="bg-white px-8 pt-8 pb-12">
                 {/* Buttons Section */}
                 <View className="mb-10">
-                    {/* Continue with Google */}
-                    <TouchableOpacity className="bg-white rounded-full py-4 px-4 flex-row items-center justify-center mb-4 border border-gray-200">
-                        <Ionicons name="logo-google" size={20} color="#DB4437" />
+                    {/* Continue with Google - REAL AUTHENTICATION */}
+                    <TouchableOpacity 
+                        className="bg-white rounded-full py-4 px-4 flex-row items-center justify-center mb-4 border border-gray-200"
+                        onPress={handleGoogleSignIn}
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <ActivityIndicator size="small" color="#DB4437" />
+                        ) : (
+                            <Ionicons name="logo-google" size={20} color="#DB4437" />
+                        )}
                         <Text className="text-gray-800 text-lg font-quicksand-medium ml-3">
-                            Continue with Google
+                            {loading ? 'Signing in...' : 'Continue with Google'}
                         </Text>
                     </TouchableOpacity>
 
-                    {/* Continue with Apple */}
-                    <TouchableOpacity className="bg-white rounded-full py-4 px-4 flex-row items-center justify-center mb-4 border border-gray-200">
+                    {/* Continue with Apple - TODO: Implement Apple Sign-In */}
+                    <TouchableOpacity className="bg-white rounded-full py-4 px-4 flex-row items-center justify-center mb-4 border border-gray-200 opacity-50">
                         <Ionicons name="logo-apple" size={20} color="#000" />
                         <Text className="text-gray-800 text-lg font-quicksand-medium ml-3">
-                            Continue with Apple
+                            Continue with Apple (Coming Soon)
                         </Text>
                     </TouchableOpacity>
 
-                    {/* Continue with Email */}
-                    <TouchableOpacity className="bg-white rounded-full py-4 px-4 flex-row items-center justify-center mb-4 border border-gray-200">
+                    {/* Continue with Email - TODO: Implement Email Auth */}
+                    <TouchableOpacity className="bg-white rounded-full py-4 px-4 flex-row items-center justify-center mb-4 border border-gray-200 opacity-50">
                         <Ionicons name="mail" size={20} color="#6B7280" />
                         <Text className="text-gray-800 text-lg font-quicksand-medium ml-3">
-                            Continue with Email
+                            Continue with Email (Coming Soon)
                         </Text>
                     </TouchableOpacity>
 
-                    {/* Sign In Button - Primary */}
+                    {/* Demo Sign In Button - Remove this in production */}
                     <TouchableOpacity 
                         className="bg-rose-400 rounded-full py-4 px-4 mt-2"
                         onPress={() => router.push('/(tabs)')}
                     >
                         <Text className="text-white text-lg font-quicksand-semibold text-center">
-                            Sign In
+                            Demo Sign In (Skip Auth)
                         </Text>
                     </TouchableOpacity>
                 </View>
